@@ -32,3 +32,10 @@ The author assumes no liability for any damages that may arise from the use of t
 ## Contributions
 
 Contributions are always welcome! If you find an error or would like to suggest an improvement, please create an issue.
+
+## Future Release Plan
+
+#### Script v3 (ReleaseDate: To Be Announced)
+
+The Script will read out all CAs from Active Directory.<br />
+Script accesses each CA via Remote Powershell and executes Script v2.
