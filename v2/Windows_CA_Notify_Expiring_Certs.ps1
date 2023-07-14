@@ -20,10 +20,10 @@ $subject = "SSL Zertifikatsablauf $hostname"
 $to = '' # is filled with each itteration of the for loop, do not input anything
 
 # Export List of expiring Certifiactes as CSV for debugging 
-certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > C:\Windows_CA_Notify_Expiring_Certs\Output\CertExpiring_$Todaycsv.csv
+certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > .\CertExpiring_$Todaycsv.csv
 
 # Get Certifiactes expiring in 30 days into veriable for output im Mailbody
-$data = Import-Csv -Path "C:\Windows_CA_Notify_Expiring_Certs\Output\CertExpiring_$Todaycsv.csv"
+$data = Import-Csv -Path ".\CertExpiring_$Todaycsv.csv"
 
 # Get the unique email addresses from the desired row
 $emailColumn = 'Issued Email Address' # Replace "Email" with the name of the column that contains the email addresses
