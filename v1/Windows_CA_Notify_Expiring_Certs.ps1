@@ -11,10 +11,10 @@ $30Days = (Get-Date).AddDays(+30)
 $ExpireDate = Get-Date -Date $30Days -Format $dateformat
 
 # Export List of expiring Certificates as CSV for  
-certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > C:\Windows_CA_Notify_Expiring_Certs\Output\CertExpiring_$Todaycsv.csv
+certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > .\CertExpiring_$Todaycsv.csv
 
 # Get Certifiactes expiring in 30 days into variable for output in Mailbody
-$certexport = Import-CSV C:\Windows_CA_Notify_Expiring_Certs\Output\CertExpiring_$Todaycsv.csv | ConvertTo-Html -Fragment
+$certexport = Import-CSV .\CertExpiring_$Todaycsv.csv | ConvertTo-Html -Fragment
 
 # Static Mail send Variables
 $hostname = $env:COMPUTERNAME
