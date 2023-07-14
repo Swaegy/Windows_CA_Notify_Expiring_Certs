@@ -16,23 +16,17 @@ This Script creates a csv from all certificates that will expire in the next 30 
 After that it will create a email for each unique emailaddress specified in the certificate, with all corresponding certificates listed in the mailbody. <br />
 Watch out for certificates where no emailaddress is specified, fill the $cc variable for that scenario.<br /><br />
 
-## License
+#### Script v3 (ReleaseDate: To Be Announced)
+The Script will read out all CAs from Active Directory.<br />
+Script accesses each CA via Remote Powershell and executes Script v2.<br /><br />
 
+## License
 This repository is licensed under the GNU General Public License v3.0. <br />
 For more information, see the LICENSE file.<br /><br />
 
 ## Disclaimer
-
 This repository is for educational and informational purposes only. <br />
 The author assumes no liability for any damages that may arise from the use of the contents of this repository.<br /><br />
 
 ## Contributions
-
 Contributions are always welcome! If you find an error or would like to suggest an improvement, please create an issue.<br /><br />
-
-## Future Release Plan
-
-#### Script v3 (ReleaseDate: To Be Announced)
-
-The Script will read out all CAs from Active Directory.<br />
-Script accesses each CA via Remote Powershell and executes Script v2.
