@@ -9,12 +9,23 @@ You can use the System Account for running the Script, but i advise you to an ac
 
 #### Script v1
 This Script creates a csv from all certificates that will expire in the next 30 days. <br />
-After that it will create a email with all certificates listed in the mailbody as a table. <br /><br />
+After that it will create a email with all certificates listed in the mailbody as a table. <br />
+
+You will need to fill in the following Infos into the Script:<br />
+$to = '' # Set your Receivers Mailaddresses here, 'user1@example.com'<br />
+$cc = '' # Use as fallback if the main Mailaddress is no longer available 'fallback@example.com'<br />
+$smtphost = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'<br />
+$maildomain = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'<br /><br />
 
 #### Script v2
 This Script creates a csv from all certificates that will expire in the next 30 days. <br />
 After that it will create a email for each unique emailaddress specified in the certificate, with all corresponding certificates listed in the mailbody. <br />
-Watch out for certificates where no emailaddress is specified, fill the $cc variable for that scenario.<br /><br />
+Watch out for certificates where no emailaddress is specified, fill the $cc variable for that scenario.<br />
+
+You will need to fill in the following Infos into the Script:<br />
+$cc = '' # Use as fallback if the Mailaddress is not set for a certificate, 'fallback@example.com'<br />
+$smtphost = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'<br />
+$maildomain = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'<br /><br />
 
 #### Script v3 (ReleaseDate: To Be Announced)
 The Script will read out all CAs from Active Directory.<br />
