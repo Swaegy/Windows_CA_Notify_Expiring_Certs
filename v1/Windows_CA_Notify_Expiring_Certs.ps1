@@ -19,7 +19,7 @@ $certexport = Import-CSV .\CertExpiring_$Todaycsv.csv | ConvertTo-Html -Fragment
 # Static Mail send Variables
 $hostname = $env:COMPUTERNAME
 $to = '' # Set your Receivers Mailaddresses here, 'user1@example.com'
-$cc = '' # Use as fallback if the main Mailaddress is no longer available 'user1@example.com'
+$cc = '' # Use as fallback if the main Mailaddress is no longer available 'fallback@example.com'
 $smtphost = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'
 $maildomain = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'
 $from = "$hostname@$maildomain"
