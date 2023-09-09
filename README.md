@@ -27,10 +27,6 @@ You will need to fill in the following Infos into the Script:<br />
 `$smtphost` = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'<br />
 `$maildomain` = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'<br /><br />
 
-#### Script v3 (ReleaseDate: To Be Announced)
-The Script will read out all CAs from Active Directory.<br />
-Script accesses each CA via Remote Powershell and executes Script v2.<br /><br />
-
 ## License
 This repository is licensed under the GNU General Public License v3.0. <br />
 For more information, see the LICENSE file.<br /><br />
