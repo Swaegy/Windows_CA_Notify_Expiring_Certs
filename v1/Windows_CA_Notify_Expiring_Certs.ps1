@@ -1,7 +1,18 @@
-#------------------------------------#
-#--------- ARC-XX  v2304.16 ---------#
-#------------------------------------#
+<#
+	.SYNOPSIS
+		PKI_Get_ExipringCerts.ps1
 
+	.DESCRIPTION
+		The Script is used to export the soon to be expiring certs from a CA and Send a Mailreport with the Information within the Mailbody.
+
+	.NOTES
+		Swaegy
+		v2301.16
+
+	.LINK
+		https://github.com/Swaegy
+
+#>
 # Cert Expiry Export Variables 
 $dateformat = 'dd.MM.yyyy'
 $dateformatcsv = 'yyyy.MM.dd'
@@ -10,26 +21,25 @@ $Todaycsv = Get-Date -Format $dateformatcsv
 $30Days = (Get-Date).AddDays(+30)
 $ExpireDate = Get-Date -Date $30Days -Format $dateformat
 
-# Export List of expiring Certificates as CSV for  
-certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > .\CertExpiring_$Todaycsv.csv
+# Export List of expiring Certifiactes as CSV for debugging 
+certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "Issued Common Name,Issued Email Address,Certificate Template,Certificate Effective Date,Certificate Expiration Date" csv > C:\Report\CertExpiring_$Todaycsv.csv
 
-# Get Certifiactes expiring in 30 days into variable for output in Mailbody
-$certexport = Import-CSV .\CertExpiring_$Todaycsv.csv | ConvertTo-Html -Fragment
+# Get Certifiactes expiring in 30 days into veriable for output im Mailbody
+$certexport = Import-CSV C:\Report\CertExpiring_$Todaycsv.csv | ConvertTo-Html -Fragment
 
-# Static Mail send Variables
+# Mail send Variables
 $hostname = $env:COMPUTERNAME
-$to = '' # Set your Receivers Mailaddresses here, 'user1@example.com'
-$cc = '' # Use as fallback if the main Mailaddress is no longer available 'fallback@example.com'
-$smtphost = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'
-$maildomain = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'
-$from = "$hostname@$maildomain"
+$to = ""
+$cc = ""
+$smtphost = ""
+$from = "$hostname-"
 $subject = "SSL Zertifikatsablauf $hostname"
-$body = "This is a overview over all Certificates that are going to expire on the CA $hostname in the next 30 Days.<br>
-This is an automated E-Mail, do not reply to this Mailaddress!<br>
+$body = "Dies ist eine Übersicht über alle Zertifikate die von der $hostname ausgestellt wurden und in weniger als 30 Tagen auslaufen werden.<br>
+Dies ist eine automatisch generierte E-Mail bitte nicht darauf antworten!<br>
 <br>
 <br>
 <br>
 $certexport"
 
-# SendMail for expiring certs
+# SendMail with Csv attached srv-infra
 Send-MailMessage -To $to -Cc $cc -SmtpServer $smtphost -From $from -Subject $subject -Body $body -BodyAsHtml -Encoding ([System.Text.Encoding]::UTF8)
