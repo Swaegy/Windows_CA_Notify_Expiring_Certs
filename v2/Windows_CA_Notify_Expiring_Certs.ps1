@@ -1,7 +1,18 @@
-#------------------------------------#
-#--------- ARC-XX  v2305.25 ---------#
-#------------------------------------#
+<#
+	.SYNOPSIS
+		PKI_Get_ExipringCerts.ps1
 
+	.DESCRIPTION
+		The Script is used to export the soon to be expiring certs from a CA and Send a Mailreport with the Information within the Mailbody.
+
+	.NOTES
+		Swaegy
+		v2301.16
+
+	.LINK
+		https://github.com/Swaegy
+
+#>
 # Cert Expiry Export Variables 
 $dateformat = 'dd.MM.yyyy'
 $dateformatcsv = 'yyyy.MM.dd'
