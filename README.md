@@ -7,19 +7,10 @@ But it is advised to automate the job with the Windows Task Scheduler. <br />
 For full coverage and to have time left to renew expiring certs, run the script via the Task Scheduler every 14 Days.<br />
 You can use the System Account for running the Script, but i advise you to an account with read right to the certificate Authority.<br /><br />
 
-#### Script v1
-This Script creates a csv from all certificates that will expire in the next 30 days. <br />
-After that it will create a email with all certificates listed in the mailbody as a table. <br />
-
-You will need to fill in the following Infos into the Script:<br />
-`$to` = '' # Set your Receivers Mailaddresses here, 'user1@example.com'<br />
-`$cc` = '' # Use as fallback if the main Mailaddress is no longer available 'fallback@example.com'<br />
-`$smtphost` = '' # FQDN or IP of your SMTP Server or Relay, 'smtp.example.com'<br />
-`$maildomain` = '' # Add your Maildomain, only needed for the Senderadress which is build from the Systemname and the Maildomain, 'example.com'<br /><br />
-
-#### Script v2
-This Script creates a csv from all certificates that will expire in the next 30 days. <br />
+#### Script
+This Script creates a csv with all certificates that will expire in the next 30 days. <br />
 After that it will create a email for each unique emailaddress specified in the certificate, with all corresponding certificates listed in the mailbody. <br />
+The Script also checks for new certificates and matches them to the expiring certs and removes those from the mail.
 Watch out for certificates where no emailaddress is specified, fill the $cc variable for that scenario.<br />
 
 You will need to fill in the following Infos into the Script:<br />
