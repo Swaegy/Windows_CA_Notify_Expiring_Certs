@@ -67,7 +67,7 @@ foreach ($UniqueMailadresses in $ExpiringCertsUniqueMailadresses) {
         $ExpiringCertsByMailaddress = certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "$outformat" csv
         
         # Filter out the Certificates that are already renewed based on the Issued Common Name and only for the certificates that have 'EMPTY' as Issued Email Address
-        $ExpiringCertsByMailaddressFiltered = $ExpiringCertsByMailaddress | Where-Object { $_.'Issued Email Address' -eq 'EMPTY' -and $_.'Issued Common Name' -notmatch "$RenewedCertsFilter" }
+        $ExpiringCertsByMailaddressFiltered = $ExpiringCertsByMailaddress | ConvertFrom-Csv | Where-Object { $_.'Issued Email Address' -eq 'EMPTY' -and $_.'Issued Common Name' -notmatch "$RenewedCertsFilter" } | ConvertTo-Csv
 
         # Check if there are still expiring certificates that are not already renewed
         if ($ExpiringCertsByMailaddressFiltered){
