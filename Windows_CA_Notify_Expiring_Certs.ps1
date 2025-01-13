@@ -9,7 +9,7 @@
 
 	.NOTES
 		Swaegy
-		v2501.11
+		v2501.13
 
 	.LINK
 		https://github.com/Swaegy
@@ -53,7 +53,7 @@ $ExpiringCerts = Import-Csv -Path ".\CertExpiring_$Todaycsv.csv"
 $ExpiringCertsUniqueMailadresses = $ExpiringCerts.'Issued Email Address' | Sort-Object -Unique
 
 # Get most recently enrolled certificates for matching it with the expiring certs
-certutil -view -restrict "Certificate Effective Date <= $Today,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertExpiring_$Todaycsv.csv"
+certutil -view -restrict "Certificate Effective Date <= $Today,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertRenewed_$Todaycsv.csv"
 $RenewedCerts = Import-Csv -Path ".\CertRenewed_$Todaycsv.csv"
 $RenewedCertsFilter = $RenewedCerts.'Issued Common Name' -join '|'
 
