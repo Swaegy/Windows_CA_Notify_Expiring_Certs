@@ -61,7 +61,7 @@ $RenewedCertsFilter = $RenewedCerts.'Issued Common Name' -join '|'
 foreach ($UniqueMailadresses in $ExpiringCertsUniqueMailadresses) {
     if ($UniqueMailadresses -eq 'EMPTY'){
         # Create a mail that is sent to a specific mail address
-        $body = "Dies ist eine Übersicht über alle Zertifikate die von der CA $hostname ausgestellt wurden und in weniger als 30 Tagen auslaufen werden.<br>Dies ist eine automatisch generierte E-Mail bitte nicht darauf antworten!<br>Diese Mail enthält alle Zertifikate die keine Issued Mail Address angegeben haben.<br><br>"
+        $body = "This is an Overview over all Certificates vom the CA $hostname that are still valid and are going to expire in the next 30 days.<br>Certificates that are already renewed (based on the Common Name), are not part of this list.<br>This Mail contains all Certificates without an Issued Mail Address provided.<br><br>"
 
         # Get all certificates, filtering based on the Issued Email Address happens later
         $ExpiringCertsByMailaddress = certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20" -out "$outformat" csv
@@ -84,7 +84,7 @@ foreach ($UniqueMailadresses in $ExpiringCertsUniqueMailadresses) {
     }
     else {
         # Create a mail that is sent to the unique email address
-        $body = "Dies ist eine Übersicht über alle Zertifikate die von der CA $hostname ausgestellt wurden und in weniger als 30 Tagen auslaufen werden.<br>Dies ist eine automatisch generierte E-Mail bitte nicht darauf antworten!<br><br>"
+        $body = "This is an Overview over all Certificates vom the CA $hostname that are still valid and are going to expire in the next 30 days.<br>Certificates that are already renewed (based on the Common Name), are not part of this list.<br><br>"
 
         # Get all the rows that have this email address
         $ExpiringCertsByMailaddress = certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20,Issued Email Address = $UniqueMailadresses" -out "$outformat" csv
