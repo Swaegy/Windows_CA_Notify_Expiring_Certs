@@ -4,22 +4,24 @@
 
 	.DESCRIPTION
 		The Script is used to export the soon to be expiring certs from a CA.
-        Check if these Certificates are already renewed, based on the Common Name of the Cert.
-        Afterwards there is a Mail gernerated based on the Value of the Issued Mail Address only containing Certs for that Mail address.
+		Check if these Certificates are already renewed, based on the Common Name of the Cert.
+		Afterwards there is a Mail gernerated based on the Value of the Issued Mail Address only containing Certs for that Mail address.
 
 	.NOTES
 		Swaegy
-		v2501.13
+		v2501.15
 
 	.LINK
-		https://github.com/Swaegy
+		https://github.com/Swaegy/Windows_CA_Notify_Expiring_Certs
 
 #>
 # Cert Expiry Export Variables 
 $dateformat = 'dd.MM.yyyy'
-$dateformatcsv = 'yyyy.MM.dd'
 $Today = Get-Date -Format $dateformat
+$dateformatcsv = 'yyyy.MM.dd'
 $Todaycsv = Get-Date -Format $dateformatcsv
+$Add1day = (Get-Date).AddDays(+1)
+$Tomorrow = Get-Date -Date $Add1Day -Format $dateformat
 $Add30Days = (Get-Date).AddDays(+30)
 $ExpireDate = Get-Date -Date $Add30Days -Format $dateformat
 $Remove30Days = (Get-Date).AddDays(-30)
@@ -53,7 +55,7 @@ $ExpiringCerts = Import-Csv -Path ".\CertExpiring_$Todaycsv.csv"
 $ExpiringCertsUniqueMailadresses = $ExpiringCerts.'Issued Email Address' | Sort-Object -Unique
 
 # Get most recently enrolled certificates for matching it with the expiring certs
-certutil -view -restrict "Certificate Effective Date <= $Today,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertRenewed_$Todaycsv.csv"
+certutil -view -restrict "Certificate Effective Date <= $Tomorrow,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertRenewed_$Todaycsv.csv"
 $RenewedCerts = Import-Csv -Path ".\CertRenewed_$Todaycsv.csv"
 $RenewedCertsFilter = $RenewedCerts.'Issued Common Name' -join '|'
 
@@ -90,7 +92,7 @@ foreach ($UniqueMailadresses in $ExpiringCertsUniqueMailadresses) {
         $ExpiringCertsByMailaddress = certutil -view -restrict "Certificate Expiration Date <= $ExpireDate,Certificate Expiration Date > $Today,Disposition = 20,Issued Email Address = $UniqueMailadresses" -out "$outformat" csv
         
         # Filter out the Certificates that are already renewed based on the Issued Common Name
-        $ExpiringCertsByMailaddressFiltered = $ExpiringCertsByMailaddress | Where-Object { $_.'Issued Common Name' -notmatch "$RenewedCertsFilter" }
+        $ExpiringCertsByMailaddressFiltered = $ExpiringCertsByMailaddress | ConvertFrom-Csv | Where-Object { $_.'Issued Common Name' -notmatch "$RenewedCertsFilter" } | ConvertTo-Csv
 
         # Check if there are still expiring certificates that are not already renewed
         if ($ExpiringCertsByMailaddressFiltered){
