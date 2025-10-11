@@ -19,9 +19,11 @@
 
 # Cert Expiry Export Variables 
 $dateformat = 'dd.MM.yyyy'
-$dateformatcsv = 'yyyy.MM.dd'
 $Today = Get-Date -Format $dateformat
+$dateformatcsv = 'yyyy.MM.dd'
 $Todaycsv = Get-Date -Format $dateformatcsv
+$Add1day = (Get-Date).AddDays(+1)
+$Tomorrow = Get-Date -Date $Add1Day -Format $dateformat
 $Add30Days = (Get-Date).AddDays(+30)
 $ExpireDate = Get-Date -Date $Add30Days -Format $dateformat
 $Remove30Days = (Get-Date).AddDays(-30)
@@ -55,7 +57,7 @@ $ExpiringCerts = Import-Csv -Path ".\CertExpiring_$Todaycsv.csv"
 $ExpiringCertsUniqueMailadresses = $ExpiringCerts.'Issued Email Address' | Sort-Object -Unique
 
 # Get most recently enrolled certificates for matching it with the expiring certs
-certutil -view -restrict "Certificate Effective Date <= $Today,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertExpiring_$Todaycsv.csv"
+certutil -view -restrict "Certificate Effective Date <= $Tomorrow,Certificate Effective Date > $EffectiveDate,Disposition = 20" -out "$outformat" csv > ".\CertRenewed_$Todaycsv.csv"
 $RenewedCerts = Import-Csv -Path ".\CertRenewed_$Todaycsv.csv"
 $RenewedCertsFilter = $RenewedCerts.'Issued Common Name' -join '|'
 
