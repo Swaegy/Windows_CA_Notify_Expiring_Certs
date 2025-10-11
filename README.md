@@ -7,7 +7,7 @@ But it is advised to automate the job with the Windows Task Scheduler. <br />
 For full coverage and to have time left to renew expiring certs, run the script via the Task Scheduler every 14 Days.<br />
 You can use the System Account for running the Script, but i advise you to an account with read right to the certificate Authority.<br /><br />
 
-#### Script
+## Script
 This Script creates a csv with all certificates that will expire in the next 30 days. <br />
 After that it will create a email for each unique emailaddress specified in the certificate, with all corresponding certificates listed in the mailbody. <br />
 The Script also checks for new certificates and matches them to the expiring certs and removes those from the mail.
